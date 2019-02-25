@@ -1,0 +1,8 @@
+docker run -d -p 9200:9200 -p 9300:9300 -it -h elasticsearch --name elasticsearch elasticsearch:6.4.2
+docker run   --name metricbeat --link logstash:logstash --mount type=bind,source="$(pwd)"/metricbeat.yml,target=/usr/share/metricbeat/metricbeat.yml -it docker.elastic.co/beats/metricbeat:6.4.2
+
+docker run -p 5044:5044  -h logstash --name logstash --link elasticsearch:elasticsearch -it --rm -v  "$PWD":/config-dir logstash -f /config-dir/logstash-conf.yml
+docker run -d -p 5601:5601 -h kibana --name kibana --link elasticsearch:elasticsearch kibana:6.4.2
+docker exec -it 36ec25147 bin/bash
+
+
